@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<components>
+	<folder name="[module]">
+		<file	name="__init__.py"		templateFrom="plugin_packaged_init.py"/>
+	</folder>
+</components>

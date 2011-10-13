@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wizards>
+	<!-- register the default wizard to the IDE wizard manager -->
+	<wizard language="Python" group="BlurDev" name="Environment">
+		<desc></desc>
+		<toolTip>Create a new Tools Environment for developers</toolTip>
+		<icon>img/icon.png</icon>
+		<module>blurdev.ide.wizards.environmentwizard</module>
+		<class>EnvironmentWizard</class>
+	</wizard>
+</wizards>

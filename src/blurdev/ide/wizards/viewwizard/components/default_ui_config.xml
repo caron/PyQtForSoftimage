@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<components>
+	<folder name="[module]">
+		<folder name="icons">
+			<file name="default.png"	copyFrom="[icon]"/>
+		</folder>
+		<folder name="ui">
+			<file name="[class::lower].ui"	templateFrom="widget.ui"/>
+			<file name="[config::lower].ui"	templateFrom="widget.ui"/>
+		</folder>
+		<file name="__init__.py"		templateFrom="__init__.py"/>
+		<file name="[class::lower].py"	templateFrom="class_ui_config.py"/>
+		<file name="[config::lower].py"	templateFrom="config_ui.py"/>
+		<file name="register.xml"		templateFrom="register_config.xml"/>
+	</folder>
+</components>

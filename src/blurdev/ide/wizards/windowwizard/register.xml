@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wizards>
+	<!-- register the default wizard to the IDE wizard manager -->
+	<wizard language="Python" group="User Interface" name="Window">
+		<desc>This wizard allows you to create a floating window.  This could be a Window, Dialog or Wizard subclass.</desc>
+		<toolTip>Create Dialogs, Windows and Wizards</toolTip>
+		<icon>img/icon.png</icon>
+		<module>blurdev.ide.wizards.windowwizard</module>
+		<class>WindowWizard</class>
+	</wizard>
+</wizards>

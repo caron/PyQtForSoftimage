@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tools_environments version="1.0">
+	<!-- load offline environments -->
+	<environment	name="Blur Offline"	loc="c:/blur/dev/offline"	default="True"/>
+	
+	<!-- load local user environments -->
+	<include		loc="c:/blur/common/user_environments.xml"/>
+</tools_environments>

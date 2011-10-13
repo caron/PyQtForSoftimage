@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wizards>
+	<!-- register the default wizard to the IDE wizard manager -->
+	<wizard language="Python" group="BlurDev" name="Package">
+		<desc>Creates a Python package for a developer to quickly group their code into smaller modules for easier readaility.
+
+This plugin will give you options to create everything from a simple, standard package, to a plugin based package system.</desc>
+		<toolTip>Create a Python package</toolTip>
+		<icon>img/icon.png</icon>
+		<module>blurdev.ide.wizards.packagewizard</module>
+		<class>PackageWizard</class>
+	</wizard>
+</wizards>

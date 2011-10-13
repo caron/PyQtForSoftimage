@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<components>
+	<folder name="ui">
+		<file name="[class::lower].ui"	templateFrom="widget.ui"/>
+	</folder>
+	<file name="[class::lower].py" 	templateFrom="widget.py"/>
+	<file name="[class::lower].png"	copyFrom="[icon]"/>
+</components>

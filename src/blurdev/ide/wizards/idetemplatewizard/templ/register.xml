@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wizards>
+	<!-- register the default wizard to the IDE wizard manager -->
+	<wizard language="[language]" group="[group]" name="[name]">
+		<desc>[desc]</desc>
+		<toolTip>[tooltip]</toolTip>
+		<icon>img/icon.png</icon>
+		<module>blurdev.ide.wizards.[module]</module>
+		<class>[class]</class>
+	</wizard>
+</wizards>

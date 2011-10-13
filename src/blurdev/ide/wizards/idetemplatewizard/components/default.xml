@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<components>
+	<folder 		name="[module]">
+		<folder		name="components">
+			<file	name="default.xml"			templateFrom="components.xml"/>
+		</folder>
+		<folder 	name="img">
+			<file 	name="icon.png" 			copyFrom="[icon]"/>
+		</folder>
+		<folder		name="templ"/>
+		<folder		name="ui">
+			<file	name="[opt_module].ui"		templateFrom="options.ui"/>
+		</folder>
+		<file 		name="__init__.py" 			templateFrom="__init__.py"/>
+		<file		name="[opt_module].py"		templateFrom="options.py"/>
+		<file		name="[module].py"			templateFrom="wizard.py"/>
+		<file		name="register.xml"			templateFrom="register.xml"/>
+	</folder>
+</components>

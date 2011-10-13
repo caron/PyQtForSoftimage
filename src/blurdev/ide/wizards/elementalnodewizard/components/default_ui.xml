@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<components>
+	<folder name="ui">
+		<file name="[module].ui"		templateFrom="node.ui"/>
+	</folder>
+	<file name="[module].png"			copyFrom="[icon]"/>
+	<file name="[module].py"			templateFrom="module_ui.py"/>
+</components>

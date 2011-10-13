@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	SDK files are read using the blurdev/gui/windows/sdkwindow
+	
+	This is for Python libraries only at the moment, as it uses the python inspect module to dynamically generate
+	help documentation based on code comments and imported data.
+	
+	To use, you have to include the modules that you want to import and parse for the documentation by adding lines like:
+	
+	<module loc="[installpath]/code/python/lib" name="my_module"/>
+-->
+<sdk name="[environment] SDK" version="1.0">
+<!--<module loc="[installpath]/code/python/lib"		name="[module]"/> -->
+</sdk>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wizards>
+	<!-- register the default wizard to the IDE wizard manager -->
+	<wizard language="Python" group="BlurDev" name="Config">
+		<desc>This wizard will walk you through the steps to creating a Widget class and module designed to work with the BlurDev Config window</desc>
+		<toolTip>Creates a Config Widget plugin</toolTip>
+		<icon>img/icon.png</icon>
+		<module>blurdev.ide.wizards.configwizard</module>
+		<class>ConfigWizard</class>
+	</wizard>
+</wizards>

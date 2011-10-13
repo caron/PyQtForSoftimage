@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<blurproj version="1.0">
+    <folders>
+        <folder name="External Resources" group="True"/>
+		<folder group="False" fileTypes="*.py;;*.pyw;;*.xml;;*.ui;;*.nsi;;*.bat;;*.schema;;*.txt;;*.blurproj" name="[name]" exclude=".svn" filePath="[installpath]/[name]"/>
+    </folders>
+</blurproj>

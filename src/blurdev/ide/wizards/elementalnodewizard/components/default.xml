@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<components>
+	<file name="[module].png"	copyFrom="[icon]"/>
+	<file name="[module].py"	templateFrom="module.py"/>
+</components>

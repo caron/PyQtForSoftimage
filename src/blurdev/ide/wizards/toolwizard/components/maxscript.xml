@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<components>
+	<!-- define your component folder/file structure for what you want to create as a template -->
+	<folder			name="[name]">
+		<folder 	name="img">
+			<file 	name="icon.png"			copyFrom="[icon]"/>
+		</folder>
+		<file		name="__meta__.xml"		templateFrom="__meta__.xml"/>
+		<file		name="[module].ms"		templateFrom="[super].ms"/>
+	</folder>
+</components>

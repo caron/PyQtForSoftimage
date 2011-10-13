@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wizards>
+	<!-- register the default wizard to the IDE wizard manager -->
+	<wizard language="Python" group="Trax" name="Data Class">
+		<desc>Create a Data class for the trax.api.data system</desc>
+		<toolTip>Create a Data class for the trax.api.data system</toolTip>
+		<icon>img/icon.png</icon>
+		<module>blurdev.ide.wizards.dataclasswizard</module>
+		<class>DataClassWizard</class>
+	</wizard>
+</wizards>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wizards>
+	<!-- register the default wizard to the IDE wizard manager -->
+	<wizard language="Python" group="User Interface" name="Widget">
+		<desc>This wizard will create the base code required for generating a reusable Qt widget.</desc>
+		<toolTip>Create a reusable Widget</toolTip>
+		<icon>img/icon.png</icon>
+		<module>blurdev.ide.wizards.widgetwizard</module>
+		<class>WidgetWizard</class>
+	</wizard>
+</wizards>

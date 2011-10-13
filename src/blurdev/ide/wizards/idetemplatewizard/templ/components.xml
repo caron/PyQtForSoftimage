@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<components>
+	<!-- define your component folder/file structure for what you want to create as a template -->
+	<!-- 
+	example:
+	<folder 	name="[option]">
+		<file	name="[option].py"		templateFrom="source.py"	copyFrom="target/path/to/option"/>
+	</folder>
+	-->
+</components>

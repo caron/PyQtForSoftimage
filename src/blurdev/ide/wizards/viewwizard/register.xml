@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wizards>
+	<!-- register the default wizard to the IDE wizard manager -->
+	<wizard language="Python" group="Trax" name="View">
+		<desc>The Trax Views are the main entry point to accessing information from the database.  This will create your basic code for registering a widget to the view system.</desc>
+		<toolTip>Create a Main Trax View</toolTip>
+		<icon>img/icon.png</icon>
+		<module>blurdev.ide.wizards.viewwizard</module>
+		<class>ViewWizard</class>
+	</wizard>
+</wizards>

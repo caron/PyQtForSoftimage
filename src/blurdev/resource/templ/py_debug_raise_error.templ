@@ -1,0 +1,7 @@
+from blurdev import debug
+		
+# when debugging, raise an error
+if ( debug.isDebugLevel( debug.DebugLevel.High ) ):
+	raise NotImplementedError
+
+return [result]

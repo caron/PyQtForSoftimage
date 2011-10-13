@@ -1,0 +1,69 @@
+body {
+	font-family: arial narrow;
+	font-size: 12px;
+	color: black;
+	background-color: white;
+}
+a.bold_link {
+	font-weight: bold;
+	color: blue;
+	text-decoration: none;
+}
+a.simple_link {
+	color: blue;
+	text-decoration: none;
+}
+pre {
+	background: #FAF8CC;
+	border: 1px black solid;
+}
+div.header {
+	font-size: x-large;
+	font-weight: bold;
+	margin-top: 1em;
+}
+li {
+	margin-bottom: 0.2em;
+}
+div.title {
+	font-size: large;
+	font-weight: bold;
+}
+div.group {
+	margin-top: 1em;
+	font-weight: bold;
+}
+div.function {
+	margin-top: 1em;
+	margin-left: 0.25em;
+	font-size: large;
+	font-weight: bold;
+}
+div.documentation {
+	margin-left: 2em;
+	margin-right: 2em;
+}
+li.summary {
+	color: #6a6a6a;
+	margin-top: 0.25em;
+	margin-right: 2em;
+}
+div.docheader {
+	color: blue;
+	margin-top: 0.5em;
+	font-weight: bold;
+}
+div.docblock {
+	margin-left: 1em;
+}
+div.warning {
+	color: red;
+	font-weight: bold;
+}
+div.copyright {
+	text-decoration: italic;
+	font-size: small;
+}
+table {
+	border: 1px black solid;
+}

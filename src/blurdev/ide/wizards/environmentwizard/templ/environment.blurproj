@@ -1,0 +1,4 @@
+<?xml version='1.0'?>
+<blurproj version="1.0">
+    <folder group="False" fileTypes="*.py;;*.pyw;;*.xml;;*.ui;;*.nsi;;*.bat;;*.schema;;*.txt;;*.blurproj;;*.templ;;*.sdk;;*.ms;;*.mcr" name="[environment]" exclude=".svn" filePath="[installpath]/[environment]"/>
+</blurproj>

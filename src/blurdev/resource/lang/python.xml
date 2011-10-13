@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<code language="Python" ext=".py;.pys;.pyw">
+	<comments>
+		<comment value="#[^\n]*"/>
+	</comments>
+	<strings>
+		<str value="'"/>
+		<str value='"'/>
+	</strings>
+	<keywords>
+		<key value="def"/>
+		<key value="class"/>
+		<key value="from"/>
+		<key value="import"/>
+		<key value="for"/>
+		<key value="in"/>
+		<key value="while"/>
+		<key value="True"/>
+		<key value="False"/>
+		<key value="pass"/>
+		<key value="try"/>
+		<key value="except"/>
+		<key value="self"/>
+		<key value="print"/>
+		<key value="if"/>
+		<key value="elif"/>
+		<key value="else"/>
+	</keywords>
+</code>

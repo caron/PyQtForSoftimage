@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data type="[toolTypes]" version="1.0">
+  <icon>img/icon.png</icon>
+  <wiki>[name]</wiki>
+  <src>main.pyw</src>
+  <toolTip>[desc]</toolTip>
+</data>
