@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<components>
-	<folder name="[group_package]">
-		<file name="__init__.py"	templateFrom="__init__.py"/>
-		<file name="[module].ui"	copyFrom="[icon]"/>
-		<file name="[module].py"	templateFrom="package.py"/>
-	</folder>
-</components>

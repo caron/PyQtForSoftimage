@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<components>
-	<folder name="ui">
-		<file name="[module].ui" templateFrom="[super].ui"/>
-	</folder>
-	<file name="[module].py"	templateFrom="[super]_ui.py"/>
-</components>
