@@ -9,15 +9,14 @@ Jones. The copyright notices can be found in files named LICENSE in the respecti
 source directories. 
 
 == Installation:
-# Download the precompiled .xsiaddon file from the github download page.
-https://github.com/downloads/caron/PyQtForSoftimage/PyQtForSoftimage_beta.xsiaddon
+# Download the precompiled .xsiaddon file from the github download page. https://github.com/downloads/caron/PyQtForSoftimage/PyQtForSoftimage_beta.xsiaddon
 
-# Compile the plugin from the source code provided. See "Build Instructions"
-section for more information.
+# Compile the plugin from the source code provided. See "Build Instructions" section for more information.
    
 == Build Instructions:
-*NOTE* Thes instructions are not complete yet!
-PyQtForSoftimage has been developed under Windows. Support for Linux is untested.
+**These instructions are not complete yet!**
+
+PyQtForSoftimage has been developed under Windows, support for Linux is untested.
 
 PyQtForSoftimage has been built and tested with the following dependencies...
 
