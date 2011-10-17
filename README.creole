@@ -1,6 +1,6 @@
-PyQtForSoftimage is a plugin for hosting PyQt applications inside Softimage's interface.
+**PyQtForSoftimage** is a plugin for hosting PyQt applications inside Softimage's interface.
 
-License:
+== License:
 The PyQtForSoftimage plugin source code contains work contributed by other open
 source projects, specifically the work done by Jo Benayoun which is released
 under GPLv3. The CMake system and the python events plugin are released under
@@ -8,23 +8,23 @@ the "New BSD" license. The FindSoftimage CMake module was contributed by Alan
 Jones. The copyright notices can be found in files named LICENSE in the respective
 source directories. 
 
-Installation:
-1) Download the precompiled .xsiaddon file from the github download page.
-   https://github.com/downloads/caron/PyQtForSoftimage/PyQtForSoftimage_beta.xsiaddon
+== Installation:
+# Download the precompiled .xsiaddon file from the github download page.
+https://github.com/downloads/caron/PyQtForSoftimage/PyQtForSoftimage_beta.xsiaddon
 
-2) Compile the plugin from the source code provided. See "Build Instructions" section
-   for more information.
+# Compile the plugin from the source code provided. See "Build Instructions"
+section for more information.
    
-Build Instructions:
+== Build Instructions:
 *NOTE* Thes instructions are not complete yet!
 PyQtForSoftimage has been developed under Windows. Support for Linux is untested.
 
 PyQtForSoftimage has been built and tested with the following dependencies...
 
-CMake 2.8.5   http://cmake.org/cmake/resources/software.html
-Qt 4.7.2      http://qt.nokia.com/downloads
-PyQt4 4.8.5   http://www.riverbankcomputing.co.uk/software/pyqt/download
-Python 2.7.2  http://www.python.org/download/
+*CMake 2.8.5   http://cmake.org/cmake/resources/software.html
+*Qt 4.7.2      http://qt.nokia.com/downloads
+*PyQt4 4.8.5   http://www.riverbankcomputing.co.uk/software/pyqt/download
+*Python 2.7.2  http://www.python.org/download/
 
 Compling Qt from source can be quite a involved process, its advised to obtain
 the precompiled binaries. Nokia provides them on their site but they are only for
