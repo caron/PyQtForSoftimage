@@ -1,0 +1,45 @@
+PyQtForSoftimage is a plugin for hosting PyQt applications inside Softimage's interface.
+
+License:
+The PyQtForSoftimage plugin source code contains work contributed by other open
+source projects, specifically the work done by Jo Benayoun which is released
+under GPLv3. The CMake system and the python events plugin are released under
+the "New BSD" license. The FindSoftimage CMake module was contributed by Alan
+Jones. The copyright notices can be found in files named LICENSE in the respective
+source directories. 
+
+Installation:
+1) Download the precompiled .xsiaddon file from the github download page.
+   https://github.com/downloads/caron/PyQtForSoftimage/PyQtForSoftimage_beta.xsiaddon
+
+2) Compile the plugin from the source code provided. See "Build Instructions" section
+   for more information.
+   
+Build Instructions:
+*NOTE* Thes instructions are not complete yet!
+PyQtForSoftimage has been developed under Windows. Support for Linux is untested.
+
+PyQtForSoftimage has been built and tested with the following dependencies...
+
+CMake 2.8.5   http://cmake.org/cmake/resources/software.html
+Qt 4.7.2      http://qt.nokia.com/downloads
+PyQt4 4.8.5   http://www.riverbankcomputing.co.uk/software/pyqt/download
+Python 2.7.2  http://www.python.org/download/
+
+Compling Qt from source can be quite a involved process, its advised to obtain
+the precompiled binaries. Nokia provides them on their site but they are only for
+32-bit, instead you can find precompiled 64-bit libraries here...
+
+http://code.google.com/p/qt-msvc-installer/
+
+Once you have installed all the dependencies get the source code either by
+downloading the source archive directly from github or obtaining a distributed
+version control system like git or mecurial (with hi-git plugin). Information on
+setting up git is available from http://help.github.com/.
+
+Now you can run CMake on the source directory and it will generate the necessary
+project files for compiling.
+
+At this time you will need to move the plugin files to a plugin/addon directory
+by hand. Copy QtSoftimage.dll, qtkeyevents.py, and pyqt_example.py to a plugins
+directory and Restart Softimage.
