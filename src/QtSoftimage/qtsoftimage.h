@@ -1,6 +1,5 @@
-
-#ifndef MINE_QTSOFTIMAGE_H
-#define MINE_QTSOFTIMAGE_H
+#ifndef QTSOFTIMAGE_H
+#define QTSOFTIMAGE_H
 
 //
 //  Qt for Softimage - Copyright (C)2011 - Jo Benayoun <jobenayoun.com>
@@ -44,7 +43,7 @@
 #include <Qt>
 
 
-namespace mine
+namespace QtSoftimage
 {
 	int Q_KEY_UP = 0x01000013;
 	int Q_KEY_DOWN = 0x01000015;
@@ -110,10 +109,10 @@ namespace mine
 	void 
 	killQtSoftimageAnchor()
 	{
-		mine::deregisterHook();
-		if (mine::sianchor) {
-			delete mine::sianchor;
-			mine::sianchor = 0;
+		QtSoftimage::deregisterHook();
+		if (QtSoftimage::sianchor) {
+			delete QtSoftimage::sianchor;
+			QtSoftimage::sianchor = 0;
 		}
 		if (qApp) {
 			QApplication *app = (QApplication *)QApplication::instance();
@@ -143,7 +142,7 @@ XSILoadPlugin(PluginRegistrar &reg)
 SICALLBACK 
 XSIUnloadPlugin(PluginRegistrar &reg)
 {
-	mine::killQtSoftimageAnchor();
+	QtSoftimage::killQtSoftimageAnchor();
 	return CStatus::OK;
 }
 
@@ -159,7 +158,7 @@ SICALLBACK
 getQtSoftimageAnchor_Execute(const CRef &ref)
 {
 	Context ctxt = Context(ref);
-	QWidget *anchor = mine::getQtSoftimageAnchor();
+	QWidget *anchor = QtSoftimage::getQtSoftimageAnchor();
 	ctxt.PutAttribute("ReturnValue", CValue(ULONG(anchor)));
 	return CStatus::OK;
 }
@@ -167,10 +166,10 @@ getQtSoftimageAnchor_Execute(const CRef &ref)
 SICALLBACK 
 killQtSoftimageAnchor_Execute(CRef &ref)
 {
-	mine::killQtSoftimageAnchor();
+	QtSoftimage::killQtSoftimageAnchor();
 	return CStatus::OK;
 }
 
 
-#endif // MINE_QSOFTIMAGE_H
+#endif // QSOFTIMAGE_H
 
