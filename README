@@ -4,8 +4,9 @@ License:
 The PyQtForSoftimage plugin source code contains work contributed by other open
 source projects, specifically the work done by Jo Benayoun which is released
 under GPLv3. The CMake system and the python events plugin are released under
-the "New BSD" license. The copyright notices can be found in files named LICENSE
-in the respective source directories. 
+the "New BSD" license. The FindSoftimage CMake module was contributed by Alan
+Jones. The copyright notices can be found in files named LICENSE in the respective
+source directories. 
 
 Installation:
 1) Download the precompiled .xsiaddon file from the github download page.
@@ -15,7 +16,7 @@ Installation:
    for more information.
    
 Build Instructions:
-*NOTE* Thes instructions are not complete yet! *NOTE*
+*NOTE* Thes instructions are not complete yet!
 PyQtForSoftimage has been developed under Windows. Support for Linux is untested.
 
 PyQtForSoftimage has been built and tested with the following dependencies...
