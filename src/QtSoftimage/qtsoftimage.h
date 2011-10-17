@@ -130,8 +130,8 @@ using namespace XSI;
 SICALLBACK 
 XSILoadPlugin(PluginRegistrar &reg)
 {
-	reg.PutName("qt_for_softimage");
-	reg.PutVersion(0, 1);
+	reg.PutName("QtSoftimage");
+	reg.PutVersion(0,2);
 	reg.PutAuthor("Jonathan Benayoun");
 	reg.PutURL("www.jobenayoun.com");
 	reg.RegisterCommand("getQtSoftimageAnchor");
