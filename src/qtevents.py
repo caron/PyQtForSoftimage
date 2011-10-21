@@ -1,4 +1,3 @@
-from siutils import *
 
 from PyQt4.QtCore import Qt
         
@@ -167,16 +166,16 @@ def consumeKey( ctxt, pressed ):
 
     # Build the modifiers
     modifier = Qt.NoModifier
-    if ( mask & constants.siShiftMask ):
+    if ( mask & C.siShiftMask ):
         if ( kcode + 300 in KEY_MAPPING ):
             kcode += 300
             
         modifier |= Qt.ShiftModifier
         
-    if ( mask & constants.siCtrlMask ):
+    if ( mask & C.siCtrlMask ):
         modifier |= Qt.ControlModifier
 
-    if ( mask & constants.siAltMask ):
+    if ( mask & C.siAltMask ):
         modifier    |= Qt.AltModifier
 
     # Generate a Qt Key Event to be processed
@@ -211,50 +210,72 @@ def isFocusWidget():
     return focus
 
 # Softimage plugin registration
-import win32com.client
-from win32com.client import constants
+from win32com.client import Dispatch as disp
+from win32com.client import constants as C
+si = disp('XSI.Application')
 
+def xsi_version():
+    """
+    Calculate the version number from the string.
+    """
+    import re
+    value = 7.0
+    results = re.match(r"[^\d]*\.?(\d+)\.(\d+)", si.Version())
+    if results:
+        value = float('.'.join(results.groups()))
+    else:
+        print 'Softmage version is unknown!'
+    del re
+    return value
+    
 def XSILoadPlugin( in_reg ):
     in_reg.Author = "Steven Caron"  
     in_reg.Name = "QtEvents"
     in_reg.Major = 0
     in_reg.Minor = 1
     
-    add_to_syspath( in_reg.OriginPath )
+    import sys
+    path = in_reg.OriginPath
+    if path not in sys.path:
+        sys.path.append( path )
 
-    in_reg.RegisterEvent( "QtEvents_KeyDown", constants.siOnKeyDown )
-    in_reg.RegisterEvent( "QtEvents_KeyUp", constants.siOnKeyUp )
+    in_reg.RegisterEvent( "QtEvents_KeyDown", C.siOnKeyDown )
+    in_reg.RegisterEvent( "QtEvents_KeyUp", C.siOnKeyUp )
     
     # register all potential events
-    in_reg.RegisterEvent( "QtEvents_Activate", constants.siOnActivate )
+    in_reg.RegisterEvent( "QtEvents_Activate", C.siOnActivate )
     
-    in_reg.RegisterEvent( "QtEvents_FileExport", constants.siOnEndFileExport )
-    in_reg.RegisterEvent( "QtEvents_FileImport", constants.siOnEndFileImport )
-    #in_reg.RegisterEvent( "QtEvents_CustomFileExport", constants.siOnCustomFileExport )
-    #in_reg.RegisterEvent( "QtEvents_CustomFileImport", constants.siOnCustomFileImport )
+    in_reg.RegisterEvent( "QtEvents_FileExport", C.siOnEndFileExport )
+    in_reg.RegisterEvent( "QtEvents_FileImport", C.siOnEndFileImport )
+    #in_reg.RegisterEvent( "QtEvents_CustomFileExport", C.siOnCustomFileExport )
+    #in_reg.RegisterEvent( "QtEvents_CustomFileImport", C.siOnCustomFileImport )
     
-    in_reg.RegisterEvent( "QtEvents_RenderFrame", constants.siOnEndFrame )
-    in_reg.RegisterEvent( "QtEvents_RenderSequence", constants.siOnEndSequence )
-    in_reg.RegisterEvent( "QtEvents_RenderAbort", constants.siOnRenderAbort )
-    in_reg.RegisterEvent( "QtEvents_PassChange", constants.siOnEndPassChange )
+    in_reg.RegisterEvent( "QtEvents_RenderFrame", C.siOnEndFrame )
+    in_reg.RegisterEvent( "QtEvents_RenderSequence", C.siOnEndSequence )
+    # siOnRenderAbort added in 2012?, err v10.0
+    if xsi_version() >= 10.0:
+        in_reg.RegisterEvent( "QtEvents_RenderAbort", C.siOnRenderAbort )
+    in_reg.RegisterEvent( "QtEvents_PassChange", C.siOnEndPassChange )
     
-    in_reg.RegisterEvent( "QtEvents_SceneOpen", constants.siOnEndSceneOpen )
-    in_reg.RegisterEvent( "QtEvents_SceneSaveAs", constants.siOnEndSceneSaveAs )
-    in_reg.RegisterEvent( "QtEvents_SceneSave", constants.siOnEndSceneSave2 )
-    in_reg.RegisterEvent( "QtEvents_ChangeProject", constants.siOnChangeProject )
+    in_reg.RegisterEvent( "QtEvents_SceneOpen", C.siOnEndSceneOpen )
+    in_reg.RegisterEvent( "QtEvents_SceneSaveAs", C.siOnEndSceneSaveAs )
+    in_reg.RegisterEvent( "QtEvents_SceneSave", C.siOnEndSceneSave2 )
+    in_reg.RegisterEvent( "QtEvents_ChangeProject", C.siOnChangeProject )
     
-    in_reg.RegisterEvent( "QtEvents_ConnectShader", constants.siOnConnectShader )
-    in_reg.RegisterEvent( "QtEvents_DisconnectShader", constants.siOnDisconnectShader )
-    in_reg.RegisterEvent( "QtEvents_CreateShader", constants.siOnCreateShader )
+    # events added in 2011, err v9.0
+    if xsi_version() >= 9.0:
+        in_reg.RegisterEvent( "QtEvents_ConnectShader", C.siOnConnectShader )
+        in_reg.RegisterEvent( "QtEvents_DisconnectShader", C.siOnDisconnectShader )
+        in_reg.RegisterEvent( "QtEvents_CreateShader", C.siOnCreateShader )
       
-    in_reg.RegisterEvent( "QtEvents_SourcePathChange", constants.siOnSourcePathChange )
+    in_reg.RegisterEvent( "QtEvents_SourcePathChange", C.siOnSourcePathChange )
     
     # the following have a high potential to be expensive/slow
-    in_reg.RegisterEvent( "QtEvents_DragAndDrop", constants.siOnDragAndDrop )
-    in_reg.RegisterEvent( "QtEvents_ObjectAdded", constants.siOnObjectAdded )
-    in_reg.RegisterEvent( "QtEvents_ObjectRemoved", constants.siOnObjectRemoved )
-    in_reg.RegisterEvent( "QtEvents_SelectionChange", constants.siOnSelectionChange )
-    in_reg.RegisterEvent( "QtEvents_ValueChange", constants.siOnValueChange )
+    in_reg.RegisterEvent( "QtEvents_DragAndDrop", C.siOnDragAndDrop )
+    in_reg.RegisterEvent( "QtEvents_ObjectAdded", C.siOnObjectAdded )
+    in_reg.RegisterEvent( "QtEvents_ObjectRemoved", C.siOnObjectRemoved )
+    in_reg.RegisterEvent( "QtEvents_SelectionChange", C.siOnSelectionChange )
+    in_reg.RegisterEvent( "QtEvents_ValueChange", C.siOnValueChange )
     
     # mute immediately. the dialog is responsble for turning the events it needs on
     events = si.EventInfos
@@ -267,7 +288,7 @@ def XSILoadPlugin( in_reg ):
     return True
 
 def XSIUnloadPlugin( in_reg ):
-    si.LogMessage( in_reg.Name + " has been unloaded.",constants.siVerbose)
+    si.LogMessage( in_reg.Name + " has been unloaded.",C.siVerbose)
     return True
 
 def QtEvents_KeyDown_OnEvent( in_ctxt ):
