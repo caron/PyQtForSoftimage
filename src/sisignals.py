@@ -1,6 +1,10 @@
 from PyQt4.QtCore import QObject
 from PyQt4.QtCore import pyqtSignal
 
+from win32com.client import Dispatch as disp
+from win32com.client import constants as C
+si = disp('XSI.Application')
+
 EVENT_MAPPING = {
     #pyqtsignal : softimage event
     "siActivate" : "QtEvents_Activate",
@@ -82,7 +86,6 @@ class SISignals( QObject ):
 signals = SISignals()
 
 def muteSIEvent( event, state = True ):
-    from siutils import si
     events = si.EventInfos
     event = events( EVENT_MAPPING[event] )
     if si.ClassName( event ) == "EventInfo":

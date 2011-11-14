@@ -1,5 +1,8 @@
-
 from PyQt4.QtCore import Qt
+
+from win32com.client import Dispatch as disp
+from win32com.client import constants as C
+si = disp('XSI.Application')
         
 # Create a mapping of virtual keys
 import win32con
@@ -209,11 +212,6 @@ def isFocusWidget():
 
     return focus
 
-# Softimage plugin registration
-from win32com.client import Dispatch as disp
-from win32com.client import constants as C
-si = disp('XSI.Application')
-
 def xsi_version():
     """
     Calculate the version number from the string.
@@ -227,7 +225,8 @@ def xsi_version():
         print 'Softmage version is unknown!'
     del re
     return value
-    
+
+# Softimage plugin registration
 def XSILoadPlugin( in_reg ):
     in_reg.Author = "Steven Caron"  
     in_reg.Name = "QtEvents"
