@@ -58,19 +58,20 @@ class ExampleSignalSlot( ExampleDialog ):
         self.lineedit.setText( targetPass )
     
     def closeEvent( self, event ):
-        # be a good person and mute your events after the dialog closes
-        # this isn't a good idea if another pyqt app is running that uses
-        # the same events. maybe there is a way to check if other widgets use
-        # certain signals?
-        from sisignals import muteSIEvent
-        muteSIEvent( "siActivate", True )
-        muteSIEvent( "siPassChange", True )  
+        # disconnect signals from slots when you close the widget
+        # muteSIEvent() can be used to mute the signals softimage events send
+        # but be careful if another widget exists and is using them
+        from sisignals import signals, muteSIEvent
+        signals.siActivate.disconnect( self.activate )
+        signals.siPassChange.disconnect( self.passChanged )  
+        #muteSIEvent( "siActivate", True )
+        #muteSIEvent( "siPassChange", True )
     
 def XSILoadPlugin( in_reg ):
     in_reg.Name = "PyQt_Example"
     in_reg.Author = "Steven Caron"
     in_reg.RegisterCommand( "ExampleDialog" )
-    in_reg.RegisterCommand( "ExampleSignalSlot")
+    in_reg.RegisterCommand( "ExampleSignalSlot" )
 
 def ExampleDialog_Execute():
     """a simple example dialog showing basic functionality of the pyqt for softimage plugin"""
