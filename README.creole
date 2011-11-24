@@ -39,5 +39,5 @@ Now you can run CMake on the source directory and it will generate the necessary
 project files for compiling.
 
 At this time you will need to move the plugin files to a plugin/addon directory
-by hand. Copy QtSoftimage.dll, qtkeyevents.py, and pyqt_example.py to a plugins
+by hand. Copy QtSoftimage.dll, qtevents.py, sisignals.py, and pyqt_example.py to a plugins
 directory and Restart Softimage.
