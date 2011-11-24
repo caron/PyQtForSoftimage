@@ -6,6 +6,8 @@ from PyQt4.QtGui import QWidget
 from PyQt4.QtGui import QPushButton
 from PyQt4.QtGui import QLineEdit
 from PyQt4.QtGui import QVBoxLayout
+from PyQt4.QtGui import QMenu
+from PyQt4.QtGui import QCursor
 
 class ExampleDialog( QDialog ):
     def __init__( self, parent ):
@@ -66,12 +68,41 @@ class ExampleSignalSlot( ExampleDialog ):
         signals.siPassChange.disconnect( self.passChanged )  
         #muteSIEvent( "siActivate", True )
         #muteSIEvent( "siPassChange", True )
+
+class ExampleMenu( QMenu ):
+    def __init__( self, parent ):
+        QMenu.__init__( self, parent )
+        
+        # add actions and a separator
+        hello = self.addAction("Print 'Hello!'")
+        self.addSeparator()	
+        world = self.addAction("Print 'World!'")
+        
+        # connect to the individual action's signal
+        hello.triggered.connect( self.hello )
+        world.triggered.connect( self.world )
+        
+        # connect to the menu level signal
+        self.triggered.connect( self.menuTrigger )
+        
+    def hello( self ):
+        print( "Hello!" )
+    
+    def world( self ):
+        print( "World!" )
+    
+    def menuTrigger( self, action ):
+        if action.text() == "Print 'Hello!'":
+            print( "You clicked, Print 'Hello!'" )
+        elif action.text() == "Print 'World!'":
+            print( "You clicked, Print 'World!'" )
     
 def XSILoadPlugin( in_reg ):
     in_reg.Name = "PyQt_Example"
     in_reg.Author = "Steven Caron"
     in_reg.RegisterCommand( "ExampleDialog" )
     in_reg.RegisterCommand( "ExampleSignalSlot" )
+    in_reg.RegisterCommand( "ExampleMenu" )
 
 def ExampleDialog_Execute():
     """a simple example dialog showing basic functionality of the pyqt for softimage plugin"""
@@ -90,3 +121,14 @@ def ExampleSignalSlot_Execute():
     sianchor = sip.wrapinstance( long(sianchor), QWidget )
     dialog = ExampleSignalSlot( sianchor )
     dialog.show()
+    
+def ExampleMenu_Execute():
+    """a simple example showing the use of a qmenu"""
+    import sip
+    
+    sianchor = Application.getQtSoftimageAnchor()
+    sianchor = sip.wrapinstance( long(sianchor), QWidget )
+    menu = ExampleMenu( sianchor )
+    
+    # notice the use of QCursor and exec_ call
+    menu.exec_(QCursor.pos())
