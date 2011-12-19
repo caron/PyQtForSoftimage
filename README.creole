@@ -10,7 +10,7 @@ LICENSE in the respective source directories.
 
 == Installation:
 You have two options...
-# Download the precompiled .xsiaddon file from the github download page. https://github.com/downloads/caron/PyQtForSoftimage/PyQtForSoftimage_beta.xsiaddon
+# Download the precompiled .xsiaddon file from the github download page. https://github.com/downloads/caron/PyQtForSoftimage/PyQtForSoftimage_beta4.xsiaddon
 # Compile the plugin from the source code provided. See "Build Instructions" section for more information.
    
 == Build Instructions:
