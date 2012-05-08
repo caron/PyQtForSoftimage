@@ -1,6 +1,12 @@
+import os
+import sip
+
+from PyQt4 import uic
+
 from PyQt4.QtCore import Qt
 from PyQt4.QtCore import pyqtSignal
 from PyQt4.QtCore import pyqtSlot
+
 from PyQt4.QtGui import QDialog
 from PyQt4.QtGui import QWidget
 from PyQt4.QtGui import QPushButton
@@ -8,6 +14,7 @@ from PyQt4.QtGui import QLineEdit
 from PyQt4.QtGui import QVBoxLayout
 from PyQt4.QtGui import QMenu
 from PyQt4.QtGui import QCursor
+
 
 class ExampleDialog( QDialog ):
     def __init__( self, parent ):
@@ -96,18 +103,31 @@ class ExampleMenu( QMenu ):
             print( "You clicked, Print 'Hello!'" )
         elif action.text() == "Print 'World!'":
             print( "You clicked, Print 'World!'" )
-    
+
+class ExampleUIFile( QDialog ):
+    def __init__( self, parent, uifilepath ):
+        QDialog.__init__( self, parent )
+        
+        # load ui file
+        self.ui = uic.loadUi( uifilepath, self )
+        
+        # connect to the createCube function
+        self.ui.uiCreateCube.clicked.connect( self.createCube )
+        
+    def createCube( self ):
+        cube = Application.CreatePrim("Cube", "MeshSurface", str(self.uiCubeName.text()), "")
+        cube.Length.Value = self.uiCubeLength.value()
+ 
 def XSILoadPlugin( in_reg ):
     in_reg.Name = "PyQt_Example"
     in_reg.Author = "Steven Caron"
     in_reg.RegisterCommand( "ExampleDialog" )
     in_reg.RegisterCommand( "ExampleSignalSlot" )
     in_reg.RegisterCommand( "ExampleMenu" )
+    in_reg.RegisterCommand( "ExampleUIFile" )
 
 def ExampleDialog_Execute():
     """a simple example dialog showing basic functionality of the pyqt for softimage plugin"""
-    import sip
-
     sianchor = Application.getQtSoftimageAnchor()
     sianchor = sip.wrapinstance( long(sianchor), QWidget )
     dialog = ExampleDialog( sianchor )
@@ -115,20 +135,31 @@ def ExampleDialog_Execute():
     
 def ExampleSignalSlot_Execute():
     """a simple example showing softimage events triggering pyqt signals"""
-    import sip
-
     sianchor = Application.getQtSoftimageAnchor()
     sianchor = sip.wrapinstance( long(sianchor), QWidget )
     dialog = ExampleSignalSlot( sianchor )
     dialog.show()
-    
+
 def ExampleMenu_Execute():
-    """a simple example showing the use of a qmenu"""
-    import sip
-    
+    """a simple example showing the use of a qmenu""" 
     sianchor = Application.getQtSoftimageAnchor()
     sianchor = sip.wrapinstance( long(sianchor), QWidget )
     menu = ExampleMenu( sianchor )
     
     # notice the use of QCursor and exec_ call
     menu.exec_(QCursor.pos())
+
+def ExampleUIFile_Execute():
+    """a simple example showing the use of a .ui file created using QtDesigner"""
+    
+    # find plugin to get the path to the example ui file
+    plugin = Application.Plugins("PyQt_Example")
+    if plugin is None:
+        raise
+        
+    sianchor = Application.getQtSoftimageAnchor()
+    sianchor = sip.wrapinstance( long(sianchor), QWidget )
+    uifilepath = os.path.join(plugin.OriginPath, "exampleui.ui")
+    dialog = QDialog(sianchor)
+    dialog = ExampleUIFile( dialog, uifilepath )
+    dialog.show()
