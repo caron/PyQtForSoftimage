@@ -155,7 +155,7 @@ def ExampleUIFile_Execute():
     # find plugin to get the path to the example ui file
     plugin = Application.Plugins("PyQt_Example")
     if plugin is None:
-        raise
+        return False
         
     sianchor = Application.getQtSoftimageAnchor()
     sianchor = sip.wrapinstance( long(sianchor), QWidget )
