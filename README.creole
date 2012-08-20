@@ -33,7 +33,7 @@ http://code.google.com/p/qt-msvc-installer/
 
 Once you have installed all the dependencies get the source code either by
 downloading the source archive directly from github or obtaining a distributed
-version control system like git or mecurial (with hi-git plugin). Information on
+version control system like git or mecurial (with hg-git plugin). Information on
 setting up git is available from http://help.github.com/.
 
 Now you can run CMake on the source directory and it will generate the necessary
