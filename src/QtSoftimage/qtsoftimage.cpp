@@ -20,8 +20,6 @@
 //          The instance should be killed when the last child is closed, or the plugin
 //          unloaded from Softimage, but for completeness a killQtSoftimageAnchor() is
 //          provided.
-//          We map key events with a hook which propagate them to the children of the
-//          anchor.
 
 
 #include <Windows.h>
@@ -41,53 +39,14 @@
 
 namespace QtSoftimage
 {
-	int Q_KEY_UP = 0x01000013;
-	int Q_KEY_DOWN = 0x01000015;
-
-	HHOOK hook;
 	HWND xsihandle;
 	QWidget *sianchor;
-
-	LRESULT CALLBACK 
-	listener(int ncode, WPARAM wparam, LPARAM lparam)
-	{
-		if (sianchor) {
-			switch (wparam)
-			{
-			case (VK_UP):
-				{
-					QKeyEvent e = QKeyEvent(QEvent::KeyPress, Q_KEY_UP, 0);
-					for (int i=0; i<sianchor->children().count(); ++i) {
-						QApplication::sendEvent(sianchor->children().at(i), &e);
-					}
-				}
-			case (VK_DOWN):
-				{
-					QKeyEvent e = QKeyEvent(QEvent::KeyPress, Q_KEY_DOWN, 0);
-					for (int i=0; i<sianchor->children().count(); ++i) {
-						QApplication::sendEvent(sianchor->children()[i], &e);
-					}
-				}
-			}
-		}
-		return CallNextHookEx(hook, ncode, wparam, lparam);
-	}
-
-	void 
-	deregisterHook()
-	{
-		if (! hook)
-			return;
-		UnhookWindowsHookEx(hook);
-	}
 
 	QWidget *
 	getQtSoftimageAnchor()
 	{
 		if (! qApp) {
 			xsihandle = (HWND)XSI::Application().GetDesktop().GetApplicationWindowHandle();
-			if (! hook)
-				hook = SetWindowsHookExW(WH_KEYBOARD, listener, 0, GetCurrentThreadId());
 			int argc = 0;
 			new QApplication(argc, 0);
 		}
@@ -105,7 +64,6 @@ namespace QtSoftimage
 	void 
 	killQtSoftimageAnchor()
 	{
-		QtSoftimage::deregisterHook();
 		if (QtSoftimage::sianchor) {
 			delete QtSoftimage::sianchor;
 			QtSoftimage::sianchor = 0;
