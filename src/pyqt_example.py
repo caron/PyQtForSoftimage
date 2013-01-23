@@ -93,16 +93,16 @@ class ExampleMenu( QMenu ):
         self.triggered.connect( self.menuTrigger )
         
     def hello( self ):
-        print( "Hello!" )
+        Application.LogMessage( "Hello!" )
     
     def world( self ):
-        print( "World!" )
+        Application.LogMessage( "World!" )
     
     def menuTrigger( self, action ):
         if action.text() == "Print 'Hello!'":
-            print( "You clicked, Print 'Hello!'" )
+            Application.LogMessage( "You clicked, Print 'Hello!'" )
         elif action.text() == "Print 'World!'":
-            print( "You clicked, Print 'World!'" )
+            Application.LogMessage( "You clicked, Print 'World!'" )
 
 class ExampleUIFile( QDialog ):
     def __init__( self, parent, uifilepath ):
