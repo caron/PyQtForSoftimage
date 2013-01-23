@@ -50,6 +50,29 @@
 #==========================================================================
 
 #Choose directories to search based on version
+set (SOFTPATHS_11_1
+    "c:/Softimage/Softimage 2013 SP1/XSISDK/include/"
+    "c:/Program Files/Autodesk/Softimage 2013_sp1_RC2/XSISDK/include/"
+    "c:/Program Files/Autodesk/Softimage_2013_SP1/XSISDK/include/"
+    "c:/Program Files/Autodesk/Softimage 2013 SP1/XSISDK/include/"
+    /usr/Softimage/Softimage_2013_SP1/XSISDK/include/
+    /usr/local/Softimage/Softimage_2013_SP1/XSISDK/include/
+)
+
+set (SOFTPATHS_11_0
+    "c:/Program Files/Autodesk/Softimage 2013/XSISDK/include/"
+    /usr/Softimage/Softimage_2013/XSISDK/include/
+    /usr/local/Softimage/Softimage_2013/XSISDK/include/
+)
+
+set (SOFTPATHS_10_5
+    "c:/Program Files/Autodesk/Softimage 2012 Subscription Advantage Pack/XSISDK/include/"
+    "c:/Program Files/Autodesk/Softimage 2012.SAP/XSISDK/include/"
+    "c:/Program Files/Autodesk/Softimage 2012.5/XSISDK/include/"
+    /usr/Softimage/Softimage_2012.5/XSISDK/include/
+    /usr/local/Softimage/Softimage_2012.5/XSISDK/include/
+)
+
 set (SOFTPATHS_10_0
     "c:/Program Files/Autodesk/Softimage 2012/XSISDK/include/"
 )
