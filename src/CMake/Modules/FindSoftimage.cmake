@@ -50,13 +50,10 @@
 #==========================================================================
 
 #Choose directories to search based on version
-set (SOFTPATHS_11_1
-    "c:/Softimage/Softimage 2013 SP1/XSISDK/include/"
-    "c:/Program Files/Autodesk/Softimage 2013_sp1_RC2/XSISDK/include/"
-    "c:/Program Files/Autodesk/Softimage_2013_SP1/XSISDK/include/"
-    "c:/Program Files/Autodesk/Softimage 2013 SP1/XSISDK/include/"
-    /usr/Softimage/Softimage_2013_SP1/XSISDK/include/
-    /usr/local/Softimage/Softimage_2013_SP1/XSISDK/include/
+set (SOFTPATHS_12_0
+    "c:/Program Files/Autodesk/Softimage 2014/XSISDK/include/"
+    /usr/Softimage/Softimage_2014/XSISDK/include/
+    /usr/local/Softimage/Softimage_2014/XSISDK/include/
 )
 
 set (SOFTPATHS_11_0
@@ -75,6 +72,8 @@ set (SOFTPATHS_10_5
 
 set (SOFTPATHS_10_0
     "c:/Program Files/Autodesk/Softimage 2012/XSISDK/include/"
+    /usr/Softimage/Softimage_2012/XSISDK/include/
+    /usr/local/Softimage/Softimage_2012/XSISDK/include/
 )
 
 set (SOFTPATHS_9_5
@@ -129,14 +128,33 @@ set (SOFTPATHS_7_0
 if (${Softimage_FIND_VERSION})
 	#We need the exact version
 	if (${Softimage_FIND_VERSION_EXACT})
-        if (${Softimage_FIND_VERSION_MAJOR} EQUAL 10)
+		 if (${Softimage_FIND_VERSION_MAJOR} EQUAL 12)
+		 		set(Softimage_SEARCH_INCLUDE_PATH "${Softimage_SEARCH_INCLUDE_PATH}"
+			${SOFTPATHS_11_0}
+            )
+
+		 endif()
+	    if (${Softimage_FIND_VERSION_MAJOR} EQUAL 11)
             set(Softimage_SEARCH_INCLUDE_PATH "${Softimage_SEARCH_INCLUDE_PATH}"
+			${SOFTPATHS_11_0}
+            )
+        endif()
+        if (${Softimage_FIND_VERSION_MAJOR} EQUAL 10)
+            if (${Softimage_FIND_VERSION_MINOR} EQUAL 5)
+                set(Softimage_SEARCH_INCLUDE_PATH "${Softimage_SEARCH_INCLUDE_PATH}"
+				${SOFTPATHS_10_5}
+                )
+            elseif (${Softimage_FIND_VERSION_MINOR} EQUAL 0)
+                set(Softimage_SEARCH_INCLUDE_PATH "${Softimage_SEARCH_INCLUDE_PATH}"
 				${SOFTPATHS_10_0}
-			)            
+                )
+            endif()
         endif()
 		if (${Softimage_FIND_VERSION_MAJOR} EQUAL 9)
+		    message(STATUS ${Softimage_FIND_VERSION_MAJOR} )
 			if (${Softimage_FIND_VERSION_MINOR} EQUAL 5)
 				set(Softimage_SEARCH_INCLUDE_PATH "${Softimage_SEARCH_INCLUDE_PATH}"
+				
 				${SOFTPATHS_9_5}
 				)
 			elseif (${Softimage_FIND_VERSION_MINOR} EQUAL 2)
@@ -167,6 +185,22 @@ if (${Softimage_FIND_VERSION})
 		endif()
 	#We need at least this version
 	else()
+	    if (${Softimage_FIND_VERSION_MAJOR} LESS 12)
+	    		set(Softimage_SEARCH_INCLUDE_PATH "${Softimage_SEARCH_INCLUDE_PATH}"
+				${SOFTPATHS_10_0}
+            )
+       endif()
+	    if (${Softimage_FIND_VERSION_MAJOR} LESS 11)
+	        if (${Softimage_FIND_VERSION_MINOR} LESS 6)
+                set(Softimage_SEARCH_INCLUDE_PATH "${Softimage_SEARCH_INCLUDE_PATH}"
+				${SOFTPATHS_10_5}
+                )
+            elseif (${Softimage_FIND_VERSION_MINOR} LESS 1)
+                set(Softimage_SEARCH_INCLUDE_PATH "${Softimage_SEARCH_INCLUDE_PATH}"
+				${SOFTPATHS_10_0}
+                )
+            endif()
+	    endif()
 		if (${Softimage_FIND_VERSION_MAJOR} LESS 10)
 			if (${Softimage_FIND_VERSION_MINOR} LESS 6)
 				set(Softimage_SEARCH_INCLUDE_PATH "${Softimage_SEARCH_INCLUDE_PATH}"
@@ -198,7 +232,10 @@ if (${Softimage_FIND_VERSION})
 #No version checking has been requested - grab the newest
 else()
 	set(Softimage_SEARCH_INCLUDE_PATH "${Softimage_SEARCH_INCLUDE_PATH}"
-	    ${SOFTPATHS_10_0}
+		${SOFTPATHS_12_0}
+		${SOFTPATHS_11_0}
+		${SOFTPATHS_10_5}
+		${SOFTPATHS_10_0}
 		${SOFTPATHS_9_5}
 		${SOFTPATHS_9_2}
 		${SOFTPATHS_9_0}
@@ -258,7 +295,19 @@ get_filename_component( Softimage_LIBRARY_DIR ${Softimage_CORESDK_LIBRARY} PATH 
 #Check which version we wound up with
 set(Softimage_MAJOR_VERSION 0)
 set(Softimage_MINOR_VERSION 0)
-if (${Softimage_INCLUDE_DIR} MATCHES "Softimage.2011.Subscription.Advantage.Pack")
+if (${Softimage_INCLUDE_DIR} MATCHES "Softimage.2014")
+    set(Softimage_MAJOR_VERSION 12)
+    set(Softimage_MINOR_VERSION 0)
+elseif (${Softimage_INCLUDE_DIR} MATCHES "Softimage.2013")
+    set(Softimage_MAJOR_VERSION 11)
+    set(Softimage_MINOR_VERSION 0)
+elseif (${Softimage_INCLUDE_DIR} MATCHES "Softimage.2012\\5")
+    set(Softimage_MAJOR_VERSION 10)
+    set(Softimage_MINOR_VERSION 5)
+elseif (${Softimage_INCLUDE_DIR} MATCHES "Softimage.2012")
+    set(Softimage_MAJOR_VERSION 10)
+    set(Softimage_MINOR_VERSION 0)
+elseif (${Softimage_INCLUDE_DIR} MATCHES "Softimage.2011.Subscription.Advantage.Pack")
 	set(Softimage_MAJOR_VERSION 9)
 	set(Softimage_MINOR_VERSION 5)
 elseif (${Softimage_INCLUDE_DIR} MATCHES "Softimage.2011")
