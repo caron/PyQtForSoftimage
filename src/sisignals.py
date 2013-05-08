@@ -23,7 +23,7 @@ else:
 if USE_PYSIDE:
     from PySide.QtCore import QObject
     from PySide.QtCore import Signal
-except:
+else:
     from PyQt4.QtCore import QObject
     from PyQt4.QtCore import pyqtSignal as Signal
 
