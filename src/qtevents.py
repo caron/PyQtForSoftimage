@@ -1,9 +1,29 @@
-from PyQt4.QtCore import Qt
+if 'PyQt4' in sys.modules:
+    USE_PYSIDE = False
+elif 'PySide' in sys.modules:
+    USE_PYSIDE = True
+else:
+    try:
+        import PyQt4
+        USE_PYSIDE = False
+    except ImportError:
+        try:
+            import PySide
+            USE_PYSIDE = True
+        except ImportError:
+            raise Exception("PyQtForSoftimage requires either PyQt4 or PySide; neither package could be imported.")
+
+if USE_PYSIDE:
+    from PySide.QtCore import Qt
+    from PySide.QtGui import QApplication, QKeyEvent, QCursor
+else:
+    from PyQt4.QtCore import Qt
+    from PyQt4.QtGui import QApplication, QKeyEvent, QCursor
 
 from win32com.client import Dispatch as disp
 from win32com.client import constants as C
 si = disp('XSI.Application')
-        
+
 # Create a mapping of virtual keys
 import win32con
 KEY_MAPPING = {
@@ -107,7 +127,7 @@ KEY_MAPPING = {
     220: ( Qt.Key_Backslash,    '\\',   None ),
     221: ( Qt.Key_BraceRight,   ']',    None ),
     222: ( Qt.Key_QuoteLeft,    "'",    None ),
-        
+
     # Calculate the SHIFT key as 300 + key value
     348: ( Qt.Key_ParenRight,   ')',    None ), # Shift+0
     349: ( Qt.Key_Exclam,       '!',    None ), # Shift+1
@@ -172,9 +192,9 @@ def consumeKey( ctxt, pressed ):
     if ( mask & C.siShiftMask ):
         if ( kcode + 300 in KEY_MAPPING ):
             kcode += 300
-            
+
         modifier |= Qt.ShiftModifier
-        
+
     if ( mask & C.siCtrlMask ):
         modifier |= Qt.ControlModifier
 
@@ -184,16 +204,14 @@ def consumeKey( ctxt, pressed ):
     # Generate a Qt Key Event to be processed
     result  = KEY_MAPPING.get( kcode )
     if ( result ):
-        from PyQt4.QtGui import QApplication, QKeyEvent
-
         if ( pressed ):
             event = QKeyEvent.KeyPress
         else:
             event = QKeyEvent.KeyRelease
-        
+
         if ( result[2] ):
             modifier |= result[2]
-        
+
         # Send the event along to the focused widget
         QApplication.sendEvent( QApplication.instance().focusWidget(), QKeyEvent( event, result[0], modifier, result[1] ) )
 
@@ -201,8 +219,6 @@ def isFocusWidget():
     """
     return true if the global qApp has any focused widgets
     """
-    from PyQt4.QtGui import QApplication, QCursor
-
     focus = False
     if QApplication.instance():
         if QApplication.instance().focusWidget():
@@ -228,11 +244,11 @@ def xsi_version():
 
 # Softimage plugin registration
 def XSILoadPlugin( in_reg ):
-    in_reg.Author = "Steven Caron"  
+    in_reg.Author = "Steven Caron"
     in_reg.Name = "QtEvents"
     in_reg.Major = 0
     in_reg.Minor = 1
-    
+
     import sys
     path = in_reg.OriginPath
     if path not in sys.path:
@@ -240,42 +256,42 @@ def XSILoadPlugin( in_reg ):
 
     in_reg.RegisterEvent( "QtEvents_KeyDown", C.siOnKeyDown )
     in_reg.RegisterEvent( "QtEvents_KeyUp", C.siOnKeyUp )
-    
+
     # register all potential events
     in_reg.RegisterEvent( "QtEvents_Activate", C.siOnActivate )
-    
+
     in_reg.RegisterEvent( "QtEvents_FileExport", C.siOnEndFileExport )
     in_reg.RegisterEvent( "QtEvents_FileImport", C.siOnEndFileImport )
     #in_reg.RegisterEvent( "QtEvents_CustomFileExport", C.siOnCustomFileExport )
     #in_reg.RegisterEvent( "QtEvents_CustomFileImport", C.siOnCustomFileImport )
-    
+
     in_reg.RegisterEvent( "QtEvents_RenderFrame", C.siOnEndFrame )
     in_reg.RegisterEvent( "QtEvents_RenderSequence", C.siOnEndSequence )
     # siOnRenderAbort added in 2012?, err v10.0
     if xsi_version() >= 10.0:
         in_reg.RegisterEvent( "QtEvents_RenderAbort", C.siOnRenderAbort )
     in_reg.RegisterEvent( "QtEvents_PassChange", C.siOnEndPassChange )
-    
+
     in_reg.RegisterEvent( "QtEvents_SceneOpen", C.siOnEndSceneOpen )
     in_reg.RegisterEvent( "QtEvents_SceneSaveAs", C.siOnEndSceneSaveAs )
     in_reg.RegisterEvent( "QtEvents_SceneSave", C.siOnEndSceneSave2 )
     in_reg.RegisterEvent( "QtEvents_ChangeProject", C.siOnChangeProject )
-    
+
     # events added in 2011, err v9.0
     if xsi_version() >= 9.0:
         in_reg.RegisterEvent( "QtEvents_ConnectShader", C.siOnConnectShader )
         in_reg.RegisterEvent( "QtEvents_DisconnectShader", C.siOnDisconnectShader )
         in_reg.RegisterEvent( "QtEvents_CreateShader", C.siOnCreateShader )
-      
+
     in_reg.RegisterEvent( "QtEvents_SourcePathChange", C.siOnSourcePathChange )
-    
+
     # the following have a high potential to be expensive/slow
     in_reg.RegisterEvent( "QtEvents_DragAndDrop", C.siOnDragAndDrop )
     in_reg.RegisterEvent( "QtEvents_ObjectAdded", C.siOnObjectAdded )
     in_reg.RegisterEvent( "QtEvents_ObjectRemoved", C.siOnObjectRemoved )
     in_reg.RegisterEvent( "QtEvents_SelectionChange", C.siOnSelectionChange )
     in_reg.RegisterEvent( "QtEvents_ValueChange", C.siOnValueChange )
-    
+
     # mute immediately. the dialog is responsble for turning the events it needs on
     events = si.EventInfos
     from sisignals import EVENT_MAPPING
@@ -283,7 +299,7 @@ def XSILoadPlugin( in_reg ):
         event = events( value )
         if si.ClassName( event ) == "EventInfo":
             event.Mute = True
-    
+
     return True
 
 def XSIUnloadPlugin( in_reg ):
@@ -345,7 +361,7 @@ def QtEvents_PassChange_OnEvent( in_ctxt ):
 def QtEvents_SceneOpen_OnEvent( in_ctxt ):
     from sisignals import signals
     signals.siSceneOpen.emit( in_ctxt.GetAttribute( "FileName" ) )
-    
+
 def QtEvents_SceneSaveAs_OnEvent( in_ctxt ):
     from sisignals import signals
     signals.siSceneSaveAs.emit( in_ctxt.GetAttribute( "FileName" ) )
@@ -353,7 +369,7 @@ def QtEvents_SceneSaveAs_OnEvent( in_ctxt ):
 def QtEvents_SceneSave_OnEvent( in_ctxt ):
     from sisignals import signals
     signals.siSceneSave.emit( in_ctxt.GetAttribute( "FileName" ) )
-    
+
 def QtEvents_ChangeProject_OnEvent( in_ctxt ):
     from sisignals import signals
     signals.siChangeProject.emit( in_ctxt.GetAttribute( "NewProjectPath" ) )
@@ -361,15 +377,15 @@ def QtEvents_ChangeProject_OnEvent( in_ctxt ):
 def QtEvents_ConnectShader_OnEvent( in_ctxt ):
     from sisignals import signals
     signals.siConnectShader.emit( in_ctxt.GetAttribute( "Source" ), in_ctxt.GetAttribute( "Target" ) )
-    
+
 def QtEvents_DisconnectShader_OnEvent( in_ctxt ):
     from sisignals import signals
     signals.siDisconnectShader.emit( in_ctxt.GetAttribute( "Source" ), in_ctxt.GetAttribute( "Target" ) )
-    
+
 def QtEvents_CreateShader_OnEvent( in_ctxt ):
     from sisignals import signals
     signals.siCreateShader.emit( in_ctxt.GetAttribute( "Shader" ), in_ctxt.GetAttribute( "ProgID" ) )
-    
+
 def QtEvents_SourcePathChange_OnEvent( in_ctxt ):
     from sisignals import signals
     signals.siSourcePathChange.emit( in_ctxt.GetAttribute( "FileName" ) )
@@ -377,19 +393,19 @@ def QtEvents_SourcePathChange_OnEvent( in_ctxt ):
 def QtEvents_DragAndDrop_OnEvent( in_ctxt ):
     from sisignals import signals
     signals.siDragAndDrop.emit( in_ctxt.GetAttribute( "DragSource" ) )
-    
+
 def QtEvents_ObjectAdded_OnEvent( in_ctxt ):
     from sisignals import signals
     signals.siObjectAdded.emit( in_ctxt.GetAttribute( "Objects" ) )
-    
+
 def QtEvents_ObjectRemoved_OnEvent( in_ctxt ):
     from sisignals import signals
     signals.siObjectRemoved.emit( in_ctxt.GetAttribute( "Objects" ) )
-    
+
 def QtEvents_SelectionChange_OnEvent( in_ctxt ):
     from sisignals import signals
     signals.siSelectionChange.emit( in_ctxt.GetAttribute( "ChangeType" ) )
-    
+
 def QtEvents_ValueChange_OnEvent( in_ctxt ):
     from sisignals import signals
     signals.siValueChange.emit( in_ctxt.GetAttribute( "FullName" ) )
