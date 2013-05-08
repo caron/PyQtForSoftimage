@@ -1,3 +1,8 @@
+import sys
+
+# Check for PyQt4 or PySide to use.  If not already imported, an attempt
+# to import PyQt4 is made.  If that fails an attempt to import PySide is
+# made.  If that fails then we raise an error.
 if 'PyQt4' in sys.modules:
     USE_PYSIDE = False
 elif 'PySide' in sys.modules:
