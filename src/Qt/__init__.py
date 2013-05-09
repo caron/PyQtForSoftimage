@@ -1,7 +1,24 @@
 # -*- coding: utf-8 -*-
 
-# Copyright (c) 2009-2011 Christopher S. Case and David H. Bronke
-# Licensed under the MIT license; see the LICENSE file for details.
+# Copyright (c) 2011 Christopher S. Case, David H. Bronke
+
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
 
 # Modified by Steven Caron for PyQtForSoftimage
 
@@ -71,25 +88,19 @@ def initialize(prefer=None, args=[]):
     if prefer in ["pyqt", "pyqt4"]:
         if not importPyQt():
             if prefer is not None:
-                #logger.warn("PyQt4 requested, but not installed.")
-                si.LogMessage("PyQt4 requested, but not installed.", C.siWarning)
+                si.LogMessage("[PyQtForSoftimage] PyQt4 requested, but not installed.", C.siWarning)
 
             if not importPySide():
-                #logger.error("Couldn't import PySide or PyQt4! You must have "
-                #        + "one or the other to run this app.")
-                si.LogMessage("Couldn't import PySide or PyQt4! You must have "
+                si.LogMessage("[PyQtForSoftimage] Couldn't import PySide or PyQt4! You must have "
                     + "one or the other to run this app.", C.siError)
                 sys.exit(1)
     else:
         if not importPySide():
             if prefer is not None:
-                #logger.warn("PySide requested, but not installed.")
-                si.LogMessage("PySide requested, but not installed.", C.siWarning)
+                si.LogMessage("[PyQtForSoftimage] PySide requested, but not installed.", C.siWarning)
 
             if not importPyQt():
-                # logger.error("Couldn't import PySide or PyQt4! You must have "
-                #         + "one or the other to run this app.")
-                si.LogMessage("Couldn't import PySide or PyQt4! You must have "
+                si.LogMessage("[PyQtForSoftimage] Couldn't import PySide or PyQt4! You must have "
                     + "one or the other to run this app.", C.siError)
                 sys.exit(1)
 
@@ -129,9 +140,7 @@ def importPySide():
                     elif not hasattr(self._rootWidget, name):
                         setattr(self._rootWidget, name, widget)
                     else:
-                        # logger.error("Name collision! Ignoring second "
-                        #         "occurrance of %r.", name)
-                        si.LogMessage("Name collision! Ignoring second "
+                        si.LogMessage("[PyQtForSoftimage] Name collision! Ignoring second "
                                 + "occurrance of %r." % name, C.siError)
 
                     if parent is not None:
@@ -139,9 +148,7 @@ def importPySide():
                     else:
                         # Sadly, we can't reparent it to self, since QUiLoader
                         # isn't a QWidget.
-                        # logger.error("No parent specified! This will probably "
-                        #         "crash due to C++ object deletion.")
-                        si.LogMessage("No parent specified! This will probably "
+                        si.LogMessage("[PyQtForSoftimage] No parent specified! This will probably "
                                 + "crash due to C++ object deletion.", C.siError)
 
                 return widget
@@ -153,9 +160,7 @@ def importPySide():
                 widget = super(UiLoader, self).load(fileOrName, parentWidget)
 
                 if widget != self._rootWidget:
-                    # logger.error("Returned widget isn't the root widget... "
-                    #         "LOLWUT?")
-                    si.LogMessage("Returned widget isn't the root widget... "
+                    si.LogMessage("[PyQtForSoftimage] Returned widget isn't the root widget... "
                         + "LOLWUT?", C.siError)
 
                 self._rootWidget = None
@@ -168,16 +173,14 @@ def importPySide():
 
             uiFile = QtCore.QFile(uiFilename, parent)
             if not uiFile.open(QtCore.QIODevice.ReadOnly):
-                # logger.error("Couldn't open file %r!", uiFilename)
-                si.LogMessage("Couldn't open file %r!" % uiFilename, C.siError)
+                si.LogMessage("[PyQtForSoftimage] Couldn't open file %r!" % uiFilename, C.siError)
                 return None
 
             try:
                 return _uiLoader.load(uiFile, parent)
 
             except:
-                # logger.exception("Exception loading UI from %r!", uiFilename)
-                si.LogMessage("Exception loading UI from %r!" % uiFilename, C.siError)
+                si.LogMessage("[PyQtForSoftimage] Exception loading UI from %r!" % uiFilename, C.siError)
 
             finally:
                 uiFile.close()
@@ -185,8 +188,7 @@ def importPySide():
 
             return None
 
-        # logger.info("Successfully initialized PySide.")
-        si.LogMessage("Successfully initialized PySide.", C.siInfo)
+        si.LogMessage("[PyQtForSoftimage] Successfully initialized PySide.", C.siInfo)
 
         globals().update(
                 QtCore=QtCore,
@@ -230,8 +232,7 @@ def importPyQt():
             newWidget = uic.loadUi(uiFilename, parent)
             return newWidget
 
-        # logger.info("Successfully initialized PyQt4.")
-        si.LogMessage("Successfully initialized PyQt4.", C.siInfo)
+        si.LogMessage("[PyQtForSoftimage] Successfully initialized PyQt4.", C.siInfo)
 
         globals().update(
                 QtCore=QtCore,
@@ -288,7 +289,6 @@ def wrapinstance(ptr, base=None):
         return shiboken.wrapInstance(long(ptr), base)
     elif isPyQt4():
         import sip
-        #base = QtCore.QObject
         return sip.wrapinstance(long(ptr), base)
     else:
         return None
