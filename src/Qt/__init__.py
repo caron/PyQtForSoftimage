@@ -274,8 +274,8 @@ def wrapinstance(ptr, base=None):
         return None
     ptr = long(ptr) #Ensure type
     if isPySide():
+        import shiboken
         if base is None:
-            import shiboken
             qObj = shiboken.wrapInstance(long(ptr), QtCore.QObject)
             metaObj = qObj.metaObject()
             cls = metaObj.className()
