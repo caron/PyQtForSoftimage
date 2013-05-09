@@ -177,27 +177,27 @@ def consumeKey( ctxt, pressed ):
 
     # Build the modifiers
     modifier = Qt.NoModifier
-    if ( mask & C.siShiftMask ):
-        if ( kcode + 300 in KEY_MAPPING ):
+    if mask & C.siShiftMask:
+        if kcode + 300 in KEY_MAPPING:
             kcode += 300
 
         modifier |= Qt.ShiftModifier
 
-    if ( mask & C.siCtrlMask ):
+    if mask & C.siCtrlMask:
         modifier |= Qt.ControlModifier
 
-    if ( mask & C.siAltMask ):
+    if mask & C.siAltMask:
         modifier    |= Qt.AltModifier
 
     # Generate a Qt Key Event to be processed
     result  = KEY_MAPPING.get( kcode )
-    if ( result ):
-        if ( pressed ):
+    if result:
+        if pressed:
             event = QKeyEvent.KeyPress
         else:
             event = QKeyEvent.KeyRelease
 
-        if ( result[2] ):
+        if result[2]:
             modifier |= result[2]
 
         # Send the event along to the focused widget
