@@ -3,7 +3,7 @@ import sipyutils
 sipyutils.add_to_syspath(__sipath__)
 
 import Qt
-Qt.initialize("PyQt4")
+Qt.initialize()
 
 from Qt.QtCore import Qt
 from Qt.QtGui import QApplication, QCursor, QKeyEvent
@@ -392,4 +392,3 @@ def QtEvents_SelectionChange_OnEvent( in_ctxt ):
 def QtEvents_ValueChange_OnEvent( in_ctxt ):
     from sisignals import signals
     signals.siValueChange.emit( in_ctxt.GetAttribute( "FullName" ) )
-

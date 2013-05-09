@@ -4,7 +4,7 @@ import sipyutils
 sipyutils.add_to_syspath(__sipath__)
 
 import Qt
-Qt.initialize("PyQt4")
+Qt.initialize()
 
 from Qt.QtGui import QDialog
 from Qt.QtGui import QWidget
