@@ -1,31 +1,7 @@
-import sys
-
-# Check for PyQt4 or PySide to use.  If not already imported, an attempt
-# to import PyQt4 is made.  If that fails an attempt to import PySide is
-# made.  If that fails then we raise an error.
-if 'PyQt4' in sys.modules:
-    USE_PYSIDE = False
-elif 'PySide' in sys.modules:
-    USE_PYSIDE = True
-else:
-    try:
-        import PyQt4
-        USE_PYSIDE = False
-    except ImportError:
-        try:
-            import PySide
-            USE_PYSIDE = True
-        except ImportError:
-            raise Exception("PyQtForSoftimage requires either PyQt4 or PySide; neither package could be imported.")
-
-# If PyQt4 is what we are using we will import pyqtSignal as Signal to conform
-# to PySide.  This allows all code below to remain the same.
-if USE_PYSIDE:
-    from PySide.QtCore import QObject
-    from PySide.QtCore import Signal
-else:
-    from PyQt4.QtCore import QObject
-    from PyQt4.QtCore import pyqtSignal as Signal
+#from qt import QObject
+#from qt import Signal
+from Qt.QtCore import QObject
+from Qt import Signal
 
 from win32com.client import Dispatch as disp
 from win32com.client import constants as C

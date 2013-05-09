@@ -1,29 +1,12 @@
-import sys
+import sipyutils
+# Add this plug-in path to python path
+sipyutils.add_to_syspath(__sipath__)
 
-# Check for PyQt4 or PySide to use.  If not already imported, an attempt
-# to import PyQt4 is made.  If that fails an attempt to import PySide is
-# made.  If that fails then we raise an error.
-if 'PyQt4' in sys.modules:
-    USE_PYSIDE = False
-elif 'PySide' in sys.modules:
-    USE_PYSIDE = True
-else:
-    try:
-        import PyQt4
-        USE_PYSIDE = False
-    except ImportError:
-        try:
-            import PySide
-            USE_PYSIDE = True
-        except ImportError:
-            raise Exception("PyQtForSoftimage requires either PyQt4 or PySide; neither package could be imported.")
+import Qt
+Qt.initialize("PyQt4")
 
-if USE_PYSIDE:
-    from PySide.QtCore import Qt
-    from PySide.QtGui import QApplication, QKeyEvent, QCursor
-else:
-    from PyQt4.QtCore import Qt
-    from PyQt4.QtGui import QApplication, QKeyEvent, QCursor
+from Qt.QtCore import Qt
+from Qt.QtGui import QApplication, QCursor, QKeyEvent
 
 from win32com.client import Dispatch as disp
 from win32com.client import constants as C
@@ -253,12 +236,7 @@ def XSILoadPlugin( in_reg ):
     in_reg.Name = "QtEvents"
     in_reg.Major = 0
     in_reg.Minor = 1
-
-    import sys
-    path = in_reg.OriginPath
-    if path not in sys.path:
-        sys.path.append( path )
-
+    
     in_reg.RegisterEvent( "QtEvents_KeyDown", C.siOnKeyDown )
     in_reg.RegisterEvent( "QtEvents_KeyUp", C.siOnKeyUp )
 
