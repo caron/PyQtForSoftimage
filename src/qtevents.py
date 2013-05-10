@@ -1,6 +1,7 @@
-import sipyutils
+import sys
 # Add this plug-in path to python path
-sipyutils.add_to_syspath(__sipath__)
+if __sipath__ not in sys.path:
+    sys.path.append( __sipath__ )
 
 import Qt
 Qt.initialize()
