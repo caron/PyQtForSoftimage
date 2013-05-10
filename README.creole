@@ -40,5 +40,20 @@ Now you can run CMake on the source directory and it will generate the necessary
 project files for compiling.
 
 At this time you will need to move the plugin files to a plugin/addon directory
-by hand. Copy QtSoftimage.dll, qtevents.py, sisignals.py, and pyqt_example.py to a plugins
-directory and Restart Softimage.
+by hand. Copy QtSoftimage.dll, qtevents.py, sisignals.py, pyqt_example.py and the Qt module directory to a plugins directory and Restart Softimage.
+
+== PySide support
+incomplete support for PySide is available now. The Qt module which is now in the source tree handles the switch between PyQt or PySide. You should call Qt.initialize() at the top of your files... it currently favors PySide over PyQt so if you have both installed but want to use one or the other you can pass in "PySide" or "PyQt4".
+
+{{{
+   # favors PySide
+   import Qt
+   Qt.initialize()
+}}}
+
+{{{
+   # forces PyQt4
+   import Qt
+   Qt.initialize("PyQt4")
+}}}
+
