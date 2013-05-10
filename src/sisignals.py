@@ -1,11 +1,9 @@
-#from qt import QObject
-#from qt import Signal
 from Qt.QtCore import QObject
 from Qt import Signal
 
 from win32com.client import Dispatch as disp
 from win32com.client import constants as C
-si = disp('XSI.Application')
+si = disp("XSI.Application")
 
 EVENT_MAPPING = {
     #pyqtsignal : softimage event
@@ -41,7 +39,7 @@ EVENT_MAPPING = {
     "siValueChange" : "QtEvents_ValueChange",
 }
 
-class SISignals( QObject ):
+class SISignals(QObject):
     """
     class for mapping softimage events to pyqt signals
     not all context attributes are passed as signal arguments, add more as needed
@@ -83,12 +81,12 @@ class SISignals( QObject ):
 
     def __init__(self):
         QObject.__init__(self)
-        self.setObjectName( "siSignals" )
+        self.setObjectName("siSignals")
 
 signals = SISignals()
 
-def muteSIEvent( event, state = True ):
+def muteSIEvent(event, state=True):
     events = si.EventInfos
-    event = events( EVENT_MAPPING[event] )
-    if si.ClassName( event ) == "EventInfo":
+    event = events(EVENT_MAPPING[event])
+    if si.ClassName(event) == "EventInfo":
         event.Mute = state
