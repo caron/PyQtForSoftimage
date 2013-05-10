@@ -1,7 +1,8 @@
 import os
-import sipyutils
+import sys
 # Add this plug-in path to python path
-sipyutils.add_to_syspath(__sipath__)
+if __sipath__ not in sys.path:
+    sys.path.append( __sipath__ )
 
 import Qt
 Qt.initialize()
@@ -41,7 +42,7 @@ class ExampleDialog( QDialog ):
 
 class ExampleSignalSlot( ExampleDialog ):
     def __init__( self, parent ):
-        ExampleDialog.__init__( self,parent )
+        ExampleDialog.__init__( self, parent )
         self.setWindowTitle( "Signal/Slot Example" )
         self.lineedit.setText( "" )
 
@@ -107,16 +108,16 @@ class ExampleMenu( QMenu ):
 class ExampleUIFile( QDialog ):
     def __init__( self, parent, uifilepath ):
         QDialog.__init__( self, parent )
-
+        
         # load ui file
         self.ui = Qt.loadUi( uifilepath, self )
-
+        
         # connect to the createCube function
         self.ui.uiCreateCube.clicked.connect( self.createCube )
         
     def createCube( self ):
-        cube = Application.CreatePrim("Cube", "MeshSurface", str(self.uiCubeName.text()), "")
-        cube.Length.Value = self.uiCubeLength.value()
+        cube = Application.CreatePrim("Cube", "MeshSurface", self.ui.uiCubeName.text(), "")
+        cube.Length.Value = self.ui.uiCubeLength.value()
  
 def XSILoadPlugin( in_reg ):
     in_reg.Name = "PyQt_Example"
