@@ -15,6 +15,8 @@ from Qt.QtGui import QVBoxLayout
 from Qt.QtGui import QMenu
 from Qt.QtGui import QCursor
 
+from Qt import loadUi
+
 class ExampleDialog( QDialog ):
     def __init__( self, parent ):
         QDialog.__init__( self, parent )
@@ -108,18 +110,18 @@ class ExampleUIFile( QDialog ):
         QDialog.__init__( self, parent )
         
         # load ui file
-        Qt.loadUi( uifilepath, self )
+        self.ui = loadUi( uifilepath, self )
         
         # connect to the createCube function
         try:
-            self.uiCreateCube.clicked.connect( self.createCube )
+            self.ui.uiCreateCube.clicked.connect( self.createCube )
         except Exception, e:
             Application.LogMessage(e)
         
     def createCube( self ):
         try:
-            cube = Application.CreatePrim("Cube", "MeshSurface", self.uiCubeName.text(), "")
-            cube.Length.Value = self.uiCubeLength.value()
+            cube = Application.CreatePrim("Cube", "MeshSurface", self.ui.uiCubeName.text(), "")
+            cube.Length.Value = self.ui.uiCubeLength.value()
         except Exception, e:
             Application.LogMessage(e)
 
@@ -161,9 +163,9 @@ def ExampleUIFile_Execute():
     plugin = Application.Plugins("PyQt_Example")
     if plugin is None:
         return False
-    
+
     sianchor = Application.getQtSoftimageAnchor()
     sianchor = Qt.wrapinstance( long(sianchor), QWidget )
     uifilepath = os.path.join(plugin.OriginPath, "exampleui.ui")
-    dialog = ExampleUIFile( sianchor, uifilepath )
+    dialog = ExampleUIFile(sianchor, uifilepath)
     dialog.show()

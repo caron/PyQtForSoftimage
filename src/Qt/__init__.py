@@ -50,10 +50,6 @@ loadUi = None
 
 binding = ""
 
-
-# Internal: UI loader instance for PySide
-_uiLoader = None
-
 QT_BINDING_MODULES = {}
 
 
@@ -125,22 +121,27 @@ def importPySide():
 
         class UiLoader(QtUiTools.QUiLoader):
             def __init__(self, baseinstance):
-                super(UiLoader, self).__init__()
-                self.baseinstance = baseinstance
+                super(UiLoader, self).__init__(baseinstance)
+                self._baseinstance = baseinstance
 
-            def createWidget(self, className, parent=None, name=""):
+            def createWidget(self, classname, parent=None, name=""):
                 widget = super(UiLoader, self).createWidget(
-                    className, parent, name)
+                    classname, parent, name)
 
                 if parent is None:
-                    return self.baseinstance
+                    return self._baseinstance
                 else:
-                    setattr(self.baseinstance, name, widget)
+                    setattr(self._baseinstance, name, widget)
                     return widget
 
         def loadUi(uifile, parent=None):
+            # loader = QtUiTools.QUiLoader(parent)
             loader = UiLoader(parent)
-            ui = loader.load(uifile)
+            file = QtCore.QFile(uifile)
+            file.open(QtCore.QFile.ReadOnly)
+            # ui = loader.load(file, parent)
+            ui = loader.load(file)
+            file.close()
             QtCore.QMetaObject.connectSlotsByName(ui)
             return ui
 
