@@ -93,7 +93,6 @@ def initialize(prefer=None, args=[]):
             if not importPySide():
                 si.LogMessage("[PyQtForSoftimage] Couldn't import PySide or PyQt4! You must have "
                     + "one or the other to run this app.", C.siError)
-                sys.exit(1)
     else:
         if not importPySide():
             if prefer is not None:
@@ -102,7 +101,6 @@ def initialize(prefer=None, args=[]):
             if not importPyQt():
                 si.LogMessage("[PyQtForSoftimage] Couldn't import PySide or PyQt4! You must have "
                     + "one or the other to run this app.", C.siError)
-                sys.exit(1)
 
     for module_name, module in QT_BINDING_MODULES.items():
         sys.modules[__name__ + '.' + module_name] = module
@@ -126,67 +124,25 @@ def importPySide():
         from PySide.QtCore import Signal, Slot, Property
 
         class UiLoader(QtUiTools.QUiLoader):
-            def __init__(self):
+            def __init__(self, baseinstance):
                 super(UiLoader, self).__init__()
-                self._rootWidget = None
+                self.baseinstance = baseinstance
 
-            def createWidget(self, className, parent=None, name=''):
+            def createWidget(self, className, parent=None, name=""):
                 widget = super(UiLoader, self).createWidget(
-                        className, parent, name)
+                    className, parent, name)
 
-                if name:
-                    if self._rootWidget is None:
-                        self._rootWidget = widget
-                    elif not hasattr(self._rootWidget, name):
-                        setattr(self._rootWidget, name, widget)
-                    else:
-                        si.LogMessage("[PyQtForSoftimage] Name collision! Ignoring second "
-                                + "occurrance of %r." % name, C.siError)
+                if parent is None:
+                    return self.baseinstance
+                else:
+                    setattr(self.baseinstance, name, widget)
+                    return widget
 
-                    if parent is not None:
-                        setattr(parent, name, widget)
-                    else:
-                        # Sadly, we can't reparent it to self, since QUiLoader
-                        # isn't a QWidget.
-                        si.LogMessage("[PyQtForSoftimage] No parent specified! This will probably "
-                                + "crash due to C++ object deletion.", C.siError)
-
-                return widget
-
-            def load(self, fileOrName, parentWidget=None):
-                if self._rootWidget is not None:
-                    raise Exception("UiLoader is already started loading UI!")
-
-                widget = super(UiLoader, self).load(fileOrName, parentWidget)
-
-                if widget != self._rootWidget:
-                    si.LogMessage("[PyQtForSoftimage] Returned widget isn't the root widget... "
-                        + "LOLWUT?", C.siError)
-
-                self._rootWidget = None
-                return widget
-
-        def loadUi(uiFilename, parent=None):
-            global _uiLoader
-            if _uiLoader is None:
-                _uiLoader = UiLoader()
-
-            uiFile = QtCore.QFile(uiFilename, parent)
-            if not uiFile.open(QtCore.QIODevice.ReadOnly):
-                si.LogMessage("[PyQtForSoftimage] Couldn't open file %r!" % uiFilename, C.siError)
-                return None
-
-            try:
-                return _uiLoader.load(uiFile, parent)
-
-            except:
-                si.LogMessage("[PyQtForSoftimage] Exception loading UI from %r!" % uiFilename, C.siError)
-
-            finally:
-                uiFile.close()
-                uiFile.deleteLater()
-
-            return None
+        def loadUi(uifile, parent=None):
+            loader = UiLoader(parent)
+            ui = loader.load(uifile)
+            QtCore.QMetaObject.connectSlotsByName(ui)
+            return ui
 
         si.LogMessage("[PyQtForSoftimage] Successfully initialized PySide.", C.siInfo)
 
@@ -256,27 +212,24 @@ def importPyQt():
 def isPySide():
     if binding == "PySide":
         return True
-
     return False
 
 
 def isPyQt4():
     if binding == "PyQt4":
         return True
-
     return False
 
 # thank you nathan horne
 def wrapinstance(ptr, base=None):
     """convert a pointer to a Qt class instance (PySide/PyQt compatible)"""
-
     if ptr is None:
         return None
     ptr = long(ptr) #Ensure type
     if isPySide():
-        import shiboken
+        from PySide import shiboken
         if base is None:
-            qObj = shiboken.wrapInstance(long(ptr), QtCore.QObject)
+            qObj = shiboken.wrapInstance(ptr, QtCore.QObject)
             metaObj = qObj.metaObject()
             cls = metaObj.className()
             superCls = metaObj.superClass().className()
@@ -286,9 +239,9 @@ def wrapinstance(ptr, base=None):
                 base = getattr(QtGui, superCls)
             else:
                 base = QtGui.QWidget
-        return shiboken.wrapInstance(long(ptr), base)
+        return shiboken.wrapInstance(ptr, base)
     elif isPyQt4():
         import sip
-        return sip.wrapinstance(long(ptr), base)
+        return sip.wrapinstance(ptr, base)
     else:
         return None
