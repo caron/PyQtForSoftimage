@@ -15,8 +15,6 @@ from Qt.QtGui import QVBoxLayout
 from Qt.QtGui import QMenu
 from Qt.QtGui import QCursor
 
-from Qt import loadUi
-
 class ExampleDialog( QDialog ):
     def __init__( self, parent ):
         QDialog.__init__( self, parent )
@@ -83,7 +81,7 @@ class ExampleMenu( QMenu ):
         
         # add actions and a separator
         hello = self.addAction("Print 'Hello!'")
-        self.addSeparator()	
+        self.addSeparator() 
         world = self.addAction("Print 'World!'")
         
         # connect to the individual action's signal
@@ -110,15 +108,21 @@ class ExampleUIFile( QDialog ):
         QDialog.__init__( self, parent )
         
         # load ui file
-        self.ui = Qt.loadUi( uifilepath, self )
+        Qt.loadUi( uifilepath, self )
         
         # connect to the createCube function
-        self.ui.uiCreateCube.clicked.connect( self.createCube )
+        try:
+            self.uiCreateCube.clicked.connect( self.createCube )
+        except Exception, e:
+            Application.LogMessage(e)
         
     def createCube( self ):
-        cube = Application.CreatePrim("Cube", "MeshSurface", self.ui.uiCubeName.text(), "")
-        cube.Length.Value = self.ui.uiCubeLength.value()
- 
+        try:
+            cube = Application.CreatePrim("Cube", "MeshSurface", self.uiCubeName.text(), "")
+            cube.Length.Value = self.uiCubeLength.value()
+        except Exception, e:
+            Application.LogMessage(e)
+
 def XSILoadPlugin( in_reg ):
     in_reg.Name = "PyQt_Example"
     in_reg.Author = "Steven Caron"
@@ -157,7 +161,7 @@ def ExampleUIFile_Execute():
     plugin = Application.Plugins("PyQt_Example")
     if plugin is None:
         return False
-        
+    
     sianchor = Application.getQtSoftimageAnchor()
     sianchor = Qt.wrapinstance( long(sianchor), QWidget )
     uifilepath = os.path.join(plugin.OriginPath, "exampleui.ui")
