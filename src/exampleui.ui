@@ -4,8 +4,8 @@
  <widget class="QWidget" name="Form">
   <property name="geometry">
    <rect>
-    <x>0</x>
-    <y>0</y>
+    <x>100</x>
+    <y>100</y>
     <width>304</width>
     <height>128</height>
    </rect>
