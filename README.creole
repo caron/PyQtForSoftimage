@@ -23,7 +23,7 @@ If you want to use native Python installed with Softimage, you must install PyQt
 == Build Instructions:
 **These instructions are not complete yet!**
 
-This section is only for using wishing to customize PyQtForSoftimage.
+This section is only for users wishing to customize PyQtForSoftimage.
 
 PyQtForSoftimage has been developed under Windows, support for Linux is untested.
 
