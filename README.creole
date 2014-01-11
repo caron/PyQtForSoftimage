@@ -9,12 +9,21 @@ Jones and released under AGPL. The copyright notices can be found in files named
 LICENSE in the respective source directories. 
 
 == Installation:
-You have two options...
-# Download the precompiled .xsiaddon file from the github download page. http://www.steven-caron.com/downloads/tools/PyQtForSoftimage_beta5.xsiaddon
-# Compile the plugin from the source code provided. See "Build Instructions" section for more information.
+This is for users who are just installing the provided addon. These instructions describe how to use the plugin with system installed version of Python. All requirements needed to use system Python inside Softimage must be met first. These instructions are listed below...
+
+# Install [[http://www.python.org/ftp/python/2.7.3/python-2.7.3.amd64.msi|Python]]. This plugin was tested with version 2.7 but can work with older versions.
+# Install [[http://sourceforge.net/projects/pywin32/files/pywin32/Build%20217/|pywin32 217]].
+# Install [[http://sourceforge.net/projects/pyqt/files/PyQt4/PyQt-4.10.3/PyQt4-4.10.3-gpl-Py2.7-Qt4.8.5-x64.exe|PyQt]].
+# In Softimage, uncheck "Use Python Installed with Softimage (Windows Only)" from Preferences/Scripting.
+# Install [[http://www.steven-caron.com/downloads/tools/PyQtForSoftimage_beta5.xsiaddon|PyQtForSoftimage]] addon.
+# Run example scripts...
+
+If you want to use native Python installed with Softimage, you must install PyQt4 into a location which Softimage can import from. Either you install PyQt4 directly into Softimage's Python install "Softimage Version\Application\python\Lib\site-packages" or make sure you put the PyQt4 installation directory on the [[http://docs.python.org/2/tutorial/modules.html#the-module-search-path|module search path]].
    
 == Build Instructions:
 **These instructions are not complete yet!**
+
+This section is only for using wishing to customize PyQtForSoftimage.
 
 PyQtForSoftimage has been developed under Windows, support for Linux is untested.
 
