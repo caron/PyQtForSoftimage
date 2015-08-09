@@ -119,30 +119,12 @@ def importPySide():
         from PySide import QtCore, QtGui, QtNetwork, QtWebKit, QtUiTools
         from PySide.QtCore import Signal, Slot, Property
 
-        class UiLoader(QtUiTools.QUiLoader):
-            def __init__(self, baseinstance):
-                super(UiLoader, self).__init__(baseinstance)
-                self._baseinstance = baseinstance
-
-            def createWidget(self, classname, parent=None, name=""):
-                widget = super(UiLoader, self).createWidget(
-                    classname, parent, name)
-
-                if parent is None:
-                    return self._baseinstance
-                else:
-                    setattr(self._baseinstance, name, widget)
-                    return widget
-
         def loadUi(uifile, parent=None):
-            # loader = QtUiTools.QUiLoader(parent)
-            loader = UiLoader(parent)
+            loader = QtUiTools.QUiLoader(parent)
             file = QtCore.QFile(uifile)
             file.open(QtCore.QFile.ReadOnly)
-            # ui = loader.load(file, parent)
-            ui = loader.load(file)
+            ui = loader.load(file, parent)
             file.close()
-            QtCore.QMetaObject.connectSlotsByName(ui)
             return ui
 
         si.LogMessage("[PyQtForSoftimage] Successfully initialized PySide.", C.siInfo)
