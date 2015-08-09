@@ -213,7 +213,7 @@ def isFocusWidget():
         if QApplication.instance().focusWidget():
             window = QApplication.instance().focusWidget().window()
             geom = window.geometry()
-            focus = geom.contains(QCursor.pos())
+            focus = not window.isMinimized() and geom.contains(QCursor.pos())
 
     return focus
 
