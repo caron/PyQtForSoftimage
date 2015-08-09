@@ -178,16 +178,16 @@ def consumeKey(ctxt, pressed):
 
     # Build the modifiers
     modifier = Qt.NoModifier
-    if mask and C.siShiftMask:
+    if mask & C.siShiftMask:
         if kcode + 300 in KEY_MAPPING:
             kcode += 300
 
         modifier |= Qt.ShiftModifier
 
-    if mask and C.siCtrlMask:
+    if mask & C.siCtrlMask:
         modifier |= Qt.ControlModifier
 
-    if mask and C.siAltMask:
+    if mask & C.siAltMask:
         modifier    |= Qt.AltModifier
 
     # Generate a Qt Key Event to be processed
