@@ -7,6 +7,8 @@ if __sipath__ not in sys.path:
 import Qt
 Qt.initialize()
 
+import Qt.QtCore as QtCore
+
 from Qt.QtGui import QDialog
 from Qt.QtGui import QWidget
 from Qt.QtGui import QPushButton
@@ -20,6 +22,12 @@ from Qt import loadUi
 class ExampleDialog( QDialog ):
     def __init__( self, parent ):
         QDialog.__init__( self, parent )
+
+        # enable minimize button
+        # testing to make sure key events are processed
+        # correctly when minimized
+        self.setWindowFlags(self.windowFlags() |
+            QtCore.Qt.WindowMinimizeButtonHint )
         
         self.setGeometry( 100, 100, 200, 100 )
         self.setWindowTitle( "Hello World" )
