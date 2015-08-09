@@ -14,6 +14,7 @@ from Qt.QtGui import QWidget
 from Qt.QtGui import QPushButton
 from Qt.QtGui import QLineEdit
 from Qt.QtGui import QVBoxLayout
+from Qt.QtGui import QGridLayout
 from Qt.QtGui import QMenu
 from Qt.QtGui import QCursor
 
@@ -119,19 +120,28 @@ class ExampleUIFile( QDialog ):
         
         # load ui file
         self.ui = loadUi( uifilepath, self )
+
+        # this is for PySide only
+        # create a layout, add the loaded ui
+        # this is to make sure the widget doesn't
+        # get garbaged collected
+        self.centralLayout = QGridLayout( self )
+        self.centralLayout.setContentsMargins( 9, 9, 9, 9 )
+        self.centralLayout.addWidget( self.ui )
+
+        # since PySide doesn't load the ui like PyQt
+        # lets get some properties from the ui file that are still relevant...
+        # the size of the dialog set in QtDesigner
+        self.resize( self.ui.size() )
+        # the window title set in QtDesigner
+        self.setWindowTitle( self.ui.windowTitle() )
         
         # connect to the createCube function
-        try:
-            self.ui.uiCreateCube.clicked.connect( self.createCube )
-        except Exception, e:
-            Application.LogMessage(e)
+        self.ui.uiCreateCube.clicked.connect( self.createCube )
         
     def createCube( self ):
-        try:
-            cube = Application.CreatePrim("Cube", "MeshSurface", self.ui.uiCubeName.text(), "")
-            cube.Length.Value = self.ui.uiCubeLength.value()
-        except Exception, e:
-            Application.LogMessage(e)
+        cube = Application.CreatePrim("Cube", "MeshSurface", self.ui.uiCubeName.text(), "")
+        cube.Length.Value = self.ui.uiCubeLength.value()
 
 def XSILoadPlugin( in_reg ):
     in_reg.Name = "PyQt_Example"
