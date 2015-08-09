@@ -167,8 +167,8 @@ def importPyQt():
         from PyQt4.QtCore import pyqtProperty as Property
         QtUiTools = object()
 
-        def loadUi(uiFilename, parent=None):
-            newWidget = uic.loadUi(uiFilename, parent)
+        def loadUi(uifile, parent=None):
+            newWidget = uic.loadUi(uifile, parent)
             return newWidget
 
         si.LogMessage("[PyQtForSoftimage] Successfully initialized PyQt4.", C.siInfo)
