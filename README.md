@@ -64,28 +64,28 @@ import Qt
 Qt.initialize("PyQt4")
 ```
 
-When using .ui files with PySide you need to do a few things to get it to load like PyQt. There is a function in the Qt module... ```Qt.loadUi``` which will return the loaded QWidgets but has trouble with layouts. The proper way to handle this is illustrated in the pyqt_examples.py file and illustrated below...
+When using .ui files with PySide you need to do a few things to get it to load like PyQt. There is a function in the Qt module ```Qt.loadUi``` which will return the loaded QWidgets but has trouble with layouts. The proper way to handle this is illustrated in the pyqt_examples.py file and illustrated below...
 
 ```python
 class ExampleUIFile( QDialog ):
- def __init__( self, parent, uifilepath ):
-     QDialog.__init__( self, parent )
-     
-     # load ui file
-     self.ui = loadUi( uifilepath, self )
+   def __init__( self, parent, uifilepath ):
+      QDialog.__init__( self, parent )
 
-     # this is for PySide only
-     # create a layout, add the loaded ui
-     # this is to make sure the widget doesn't
-     # get garbaged collected
-     self.centralLayout = QGridLayout( self )
-     self.centralLayout.setContentsMargins( 9, 9, 9, 9 )
-     self.centralLayout.addWidget( self.ui )
+      # load ui file
+      self.ui = loadUi( uifilepath, self )
 
-     # since PySide doesn't load the ui like PyQt
-     # lets get some properties from the ui file that are still relevant...
-     # the size of the dialog set in QtDesigner
-     self.resize( self.ui.size() )
-     # the window title set in QtDesigner
-     self.setWindowTitle( self.ui.windowTitle() )
+      # this is for PySide only
+      # create a layout, add the loaded ui
+      # this is to make sure the widget doesn't
+      # get garbaged collected
+      self.centralLayout = QGridLayout( self )
+      self.centralLayout.setContentsMargins( 9, 9, 9, 9 )
+      self.centralLayout.addWidget( self.ui )
+
+      # since PySide doesn't load the ui like PyQt
+      # lets get some properties from the ui file that are still relevant...
+      # the size of the dialog set in QtDesigner
+      self.resize( self.ui.size() )
+      # the window title set in QtDesigner
+      self.setWindowTitle( self.ui.windowTitle() )
 ```
