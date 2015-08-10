@@ -31,9 +31,6 @@ PyQtForSoftimage has been built and tested with the following dependencies...
 
 * CMake 3.1.3     http://www.cmake.org/download/
 * Qt 4.8.5        http://download.qt.io/archive/qt/
-* PyQt 4.10.3     http://www.riverbankcomputing.co.uk/software/pyqt/download
-* PySide 1.2.2    https://download.qt.io/official_releases/pyside
-* Python 2.7.9    https://www.python.org/downloads/
 
 Compling Qt from source can be quite an involved process, its advised to obtain
 the precompiled binaries.
